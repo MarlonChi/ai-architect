@@ -1,8 +1,10 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+
+import { UserDetailContext } from "./_context/UserDetailContext";
 
 interface ProviderProps {
   children: ReactNode;
@@ -10,6 +12,7 @@ interface ProviderProps {
 
 const Provider = ({ children }: ProviderProps) => {
   const { user } = useUser();
+  const [userDetail, setUserDetail] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -22,10 +25,14 @@ const Provider = ({ children }: ProviderProps) => {
       user: user,
     });
 
-    console.log(dataResult.data);
+    setUserDetail(dataResult.data.result);
   };
 
-  return <div>{children}</div>;
+  return (
+    <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+      <div>{children}</div>
+    </UserDetailContext.Provider>
+  );
 };
 
 export default Provider;
