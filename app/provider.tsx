@@ -10,9 +10,13 @@ interface ProviderProps {
   children: ReactNode;
 }
 
+interface UserDetailProps {
+  credits: string;
+}
+
 const Provider = ({ children }: ProviderProps) => {
   const { user } = useUser();
-  const [userDetail, setUserDetail] = useState([]);
+  const [userDetail, setUserDetail] = useState<UserDetailProps[]>([]);
 
   useEffect(() => {
     if (user) {

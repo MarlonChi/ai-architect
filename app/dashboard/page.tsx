@@ -1,9 +1,9 @@
-import { UserButton } from "@clerk/nextjs";
+import { Listing } from "./_components/listing";
 
 const Dashboard = () => {
   return (
     <div>
-      <UserButton />
+      <Listing />
     </div>
   );
 };
