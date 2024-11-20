@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +12,9 @@ export const EmptyState = () => {
       <h2 className="font-medium text-xl text-gray-500">
         Crie um novo AI Design para seu cômodo
       </h2>
-      <Button>Começar</Button>
+      <Link href={"/dashboard/create-new"}>
+        <Button>Começar</Button>
+      </Link>
     </div>
   );
 };
