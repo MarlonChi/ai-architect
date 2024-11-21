@@ -1,12 +1,23 @@
 "use client";
 
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { AdditionalInformation } from "./_components/additional-information";
 import { DesignType } from "./_components/design-type";
 import { ImageSelection } from "./_components/image-selection";
 import { RoomType } from "./_components/room-type";
 
 const CreateNew = () => {
+  const [formData, setFormData] = useState([]);
+
   const onHandleInputChange = (value: File | string, fieldName: string) => {
-    console.log(value, fieldName);
+    setFormData((prev) => ({
+      ...prev,
+      [fieldName]: [value],
+    }));
+
+    console.log("formData: ", formData);
   };
 
   return (
@@ -35,6 +46,17 @@ const CreateNew = () => {
               onHandleInputChange(value, "designType")
             }
           />
+
+          <AdditionalInformation
+            additionalInformationInput={(value: string) =>
+              onHandleInputChange(value, "additionalInformation")
+            }
+          />
+
+          <Button className="w-full mt-5">Gerar</Button>
+          <p className="text-sm text-gray-400 mb-52">
+            Observação: Um crédito será usado para gerar sua imagem.
+          </p>
         </div>
       </div>
     </div>

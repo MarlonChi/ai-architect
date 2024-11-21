@@ -13,7 +13,7 @@ interface RoomTypeProps {
 export const RoomType = ({ selectedRoomType }: RoomTypeProps) => {
   return (
     <div>
-      <label className="text-slate-400">Selecione o tipo *</label>
+      <label className="text-slate-500">Selecione o tipo *</label>
       <Select onValueChange={(value) => selectedRoomType(value)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Tipo de cômodo" />
