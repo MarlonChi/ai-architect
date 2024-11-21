@@ -1,5 +1,6 @@
 "use client";
 
+import { DesignType } from "./_components/design-type";
 import { ImageSelection } from "./_components/image-selection";
 import { RoomType } from "./_components/room-type";
 
@@ -26,6 +27,12 @@ const CreateNew = () => {
           <RoomType
             selectedRoomType={(value: string) =>
               onHandleInputChange(value, "roomType")
+            }
+          />
+
+          <DesignType
+            selectedDesignType={(value: string) =>
+              onHandleInputChange(value, "designType")
             }
           />
         </div>
