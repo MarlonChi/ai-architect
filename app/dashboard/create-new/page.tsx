@@ -1,23 +1,64 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 import { Button } from "@/components/ui/button";
 import { AdditionalInformation } from "./_components/additional-information";
 import { DesignType } from "./_components/design-type";
 import { ImageSelection } from "./_components/image-selection";
 import { RoomType } from "./_components/room-type";
+import { storage } from "@/config/firebaseConfig";
+
+interface FormDataProps {
+  image: File;
+  roomType: string;
+  designType: string;
+  additionalInformation: string;
+}
 
 const CreateNew = () => {
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState<FormDataProps>({
+    image: null as unknown as File,
+    roomType: "",
+    designType: "",
+    additionalInformation: "",
+  });
 
-  const onHandleInputChange = (value: File | string, fieldName: string) => {
+  const onHandleInputChange = (
+    value: File | string,
+    fieldName: keyof FormDataProps
+  ) => {
     setFormData((prev) => ({
       ...prev,
-      [fieldName]: [value],
+      [fieldName]: value,
     }));
+  };
 
-    console.log("formData: ", formData);
+  const GenerateAiImage = async () => {
+    const rawImageUrl = await SaveRawImageToFirebase();
+    const result = await axios.post("/api/ai-architect", {
+      imageUrl: rawImageUrl,
+      roomType: formData?.roomType,
+      designType: formData?.designType,
+      additionalInformation: formData?.additionalInformation,
+    });
+    console.log(result.data);
+  };
+
+  const SaveRawImageToFirebase = async () => {
+    const fileType = formData.image.type.split("/")[1];
+    const fileName = Date.now() + "_raw." + fileType;
+    const imageRef = ref(storage, "ai-architect/" + fileName);
+
+    await uploadBytes(imageRef, formData.image).then((resp) => {
+      console.log("File uploaded...");
+    });
+
+    const downloadUrl = await getDownloadURL(imageRef);
+    console.log("downloadUrl: ", downloadUrl);
+    return downloadUrl;
   };
 
   return (
@@ -53,7 +94,9 @@ const CreateNew = () => {
             }
           />
 
-          <Button className="w-full mt-5">Gerar</Button>
+          <Button className="w-full mt-5" onClick={GenerateAiImage}>
+            Gerar
+          </Button>
           <p className="text-sm text-gray-400 mb-52">
             Observação: Um crédito será usado para gerar sua imagem.
           </p>
