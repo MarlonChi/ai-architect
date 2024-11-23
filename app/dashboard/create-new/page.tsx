@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useUser } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { AdditionalInformation } from "./_components/additional-information";
@@ -19,6 +20,7 @@ interface FormDataProps {
 }
 
 const CreateNew = () => {
+  const { user } = useUser();
   const [formData, setFormData] = useState<FormDataProps>({
     image: null as unknown as File,
     roomType: "",
@@ -43,6 +45,7 @@ const CreateNew = () => {
       roomType: formData?.roomType,
       designType: formData?.designType,
       additionalInformation: formData?.additionalInformation,
+      userEmail: user?.primaryEmailAddress?.emailAddress,
     });
     console.log(result.data);
   };
@@ -52,7 +55,7 @@ const CreateNew = () => {
     const fileName = Date.now() + "_raw." + fileType;
     const imageRef = ref(storage, "ai-architect/" + fileName);
 
-    await uploadBytes(imageRef, formData.image).then((resp) => {
+    await uploadBytes(imageRef, formData.image).then(() => {
       console.log("File uploaded...");
     });
 
