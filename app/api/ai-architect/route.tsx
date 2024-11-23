@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
     // );
 
     const output =
-      "https://replicate.delivery/pbxt/bAmgl7qTc1pqIhWHQGKeqZPxZe507S1EzfnnEeMA4JfEvrdeE/out.png";
+      "https://firebasestorage.googleapis.com/v0/b/ai-architect-196f3.firebasestorage.app/o/ai-architect%2F1732397233603.png?alt=media&token=d11762ed-550c-4350-9186-43ac240c99d8";
 
-    const base64Image = await ConvertImageToBase64(output);
+    const base64Image = await ConvertImageToBase64(String(output));
 
     const fileName = Date.now() + ".png";
     const storageRef = ref(storage, "ai-architect/" + fileName);
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       .returning({ id: AiGeneratedImage.id });
 
     console.log("dbResult: ", dbResult);
-    return NextResponse.json({ result: dbResult });
+    return NextResponse.json({ result: downloadUrl });
   } catch (err) {
     return NextResponse.json({ result: err });
   }

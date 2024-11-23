@@ -12,6 +12,7 @@ import { ImageSelection } from "./_components/image-selection";
 import { RoomType } from "./_components/room-type";
 import { storage } from "@/config/firebaseConfig";
 import { CustomLoading } from "./_components/custom-loading";
+import { AiOutputDialog } from "../_components/ai-output-dialog";
 
 interface FormDataProps {
   image: File;
@@ -29,7 +30,10 @@ const CreateNew = () => {
     additionalInformation: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [outputResult, setOutputResult] = useState();
+  const [aiOutputImage, setAiOutputImage] = useState<string | null>(null);
+  const [openOutputDialog, setOpenOutputDialog] = useState(false);
+  const [orgImage, setOrgImage] = useState<string | null>(null);
+  // const [outputResult, setOutputResult] = useState();
 
   const onHandleInputChange = (
     value: File | string,
@@ -52,7 +56,8 @@ const CreateNew = () => {
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
     console.log(result.data);
-    setOutputResult(result.data.result);
+    setAiOutputImage(result.data.result);
+    setOpenOutputDialog(true);
     setIsLoading(false);
   };
 
@@ -67,6 +72,7 @@ const CreateNew = () => {
 
     const downloadUrl = await getDownloadURL(imageRef);
     console.log("downloadUrl: ", downloadUrl);
+    setOrgImage(downloadUrl);
     return downloadUrl;
   };
 
@@ -122,6 +128,13 @@ const CreateNew = () => {
       </div>
 
       <CustomLoading loading={isLoading} />
+
+      <AiOutputDialog
+        isOpen={openOutputDialog}
+        setIsOpen={setOpenOutputDialog}
+        orgImageUrl={orgImage!}
+        aiImageUrl={aiOutputImage!}
+      />
     </div>
   );
 };
