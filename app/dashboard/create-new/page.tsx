@@ -11,6 +11,7 @@ import { DesignType } from "./_components/design-type";
 import { ImageSelection } from "./_components/image-selection";
 import { RoomType } from "./_components/room-type";
 import { storage } from "@/config/firebaseConfig";
+import { CustomLoading } from "./_components/custom-loading";
 
 interface FormDataProps {
   image: File;
@@ -27,6 +28,8 @@ const CreateNew = () => {
     designType: "",
     additionalInformation: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [outputResult, setOutputResult] = useState();
 
   const onHandleInputChange = (
     value: File | string,
@@ -39,6 +42,7 @@ const CreateNew = () => {
   };
 
   const GenerateAiImage = async () => {
+    setIsLoading(true);
     const rawImageUrl = await SaveRawImageToFirebase();
     const result = await axios.post("/api/ai-architect", {
       imageUrl: rawImageUrl,
@@ -48,6 +52,8 @@ const CreateNew = () => {
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
     console.log(result.data);
+    setOutputResult(result.data.result);
+    setIsLoading(false);
   };
 
   const SaveRawImageToFirebase = async () => {
@@ -63,6 +69,11 @@ const CreateNew = () => {
     console.log("downloadUrl: ", downloadUrl);
     return downloadUrl;
   };
+
+  const isButtonDisabled =
+    formData.image === null ||
+    formData.roomType === "" ||
+    formData.designType === "";
 
   return (
     <div>
@@ -97,7 +108,11 @@ const CreateNew = () => {
             }
           />
 
-          <Button className="w-full mt-5" onClick={GenerateAiImage}>
+          <Button
+            className="w-full mt-5"
+            onClick={GenerateAiImage}
+            disabled={isButtonDisabled}
+          >
             Gerar
           </Button>
           <p className="text-sm text-gray-400 mb-52">
@@ -105,6 +120,8 @@ const CreateNew = () => {
           </p>
         </div>
       </div>
+
+      <CustomLoading loading={isLoading} />
     </div>
   );
 };
