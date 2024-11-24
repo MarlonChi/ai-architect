@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import { UserButton } from "@clerk/nextjs";
 import { useContext } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
+
 import { UserDetailContext } from "@/app/_context/UserDetailContext";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export const Header = () => {
   const { userDetail } = useContext(UserDetailContext);
@@ -19,9 +20,11 @@ export const Header = () => {
         </div>
       </Link>
 
-      <Button variant="ghost" className="rounded-full text-primary">
-        Compre mais créditos
-      </Button>
+      <Link href="/dashboard/buy-credits">
+        <Button variant="ghost" className="rounded-full text-primary">
+          Compre mais créditos
+        </Button>
+      </Link>
 
       <div className="flex items-center gap-7">
         <div className="flex items-center gap-2 p-1 bg-slate-200 px-3 rounded-full">
