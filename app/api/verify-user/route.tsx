@@ -22,7 +22,13 @@ export async function POST(req: NextRequest) {
           email: user?.primaryEmailAddress.emailAddress,
           imageUrl: user?.imageUrl,
         })
-        .returning({ Users });
+        .returning({
+          id: Users.id,
+          name: Users.name,
+          email: Users.email,
+          imageUrl: Users.imageUrl,
+          credits: Users.credits,
+        });
 
       return NextResponse.json({ result: saveResult[0] });
     }
