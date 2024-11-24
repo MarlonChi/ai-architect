@@ -8,18 +8,11 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/config/db";
 import { Users } from "@/config/schema";
 import { UserDetailContext } from "@/app/_context/UserDetailContext";
+import { User } from "@/app/_types";
 
 interface CreditsOptions {
   credits: number;
   amount: number;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  imageUrl: string;
-  credits: number;
 }
 
 const BuyCredits = () => {

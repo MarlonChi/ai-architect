@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/nextjs";
+import { Users } from "@/config/schema";
 
 import { Button } from "@/components/ui/button";
 import { AdditionalInformation } from "./_components/additional-information";
@@ -13,6 +14,9 @@ import { RoomType } from "./_components/room-type";
 import { storage } from "@/config/firebaseConfig";
 import { CustomLoading } from "./_components/custom-loading";
 import { AiOutputDialog } from "../_components/ai-output-dialog";
+import { db } from "@/config/db";
+import { UserDetailContext } from "@/app/_context/UserDetailContext";
+import { User } from "@/app/_types";
 
 interface FormDataProps {
   image: File;
@@ -33,6 +37,8 @@ const CreateNew = () => {
   const [aiOutputImage, setAiOutputImage] = useState<string | null>(null);
   const [openOutputDialog, setOpenOutputDialog] = useState(false);
   const [orgImage, setOrgImage] = useState<string | null>(null);
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+
   // const [outputResult, setOutputResult] = useState();
 
   const onHandleInputChange = (
@@ -58,6 +64,7 @@ const CreateNew = () => {
     console.log(result.data);
     setAiOutputImage(result.data.result);
     setOpenOutputDialog(true);
+    await updateUserCredits();
     setIsLoading(false);
   };
 
@@ -74,6 +81,23 @@ const CreateNew = () => {
     console.log("downloadUrl: ", downloadUrl);
     setOrgImage(downloadUrl);
     return downloadUrl;
+  };
+
+  const updateUserCredits = async () => {
+    const result = await db
+      .update(Users)
+      .set({
+        credits: Number(userDetail?.credits) - 1,
+      })
+      .returning({ id: Users.id });
+
+    if (result) {
+      setUserDetail((prev: User) => ({
+        ...prev,
+        credits: userDetail?.credits - 1,
+      }));
+      return result[0].id;
+    }
   };
 
   const isButtonDisabled =
