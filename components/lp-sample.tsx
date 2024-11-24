@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const LpSample = () => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col items-center justify-between gap-3 md:flex-row">
       <Image
         src="/sample.jpg"
         alt="Exemplo"
