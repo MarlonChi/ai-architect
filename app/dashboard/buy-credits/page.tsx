@@ -1,11 +1,25 @@
 "use client";
 
+import { useContext, useState } from "react";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { db } from "@/config/db";
+import { Users } from "@/config/schema";
+import { UserDetailContext } from "@/app/_context/UserDetailContext";
 
 interface CreditsOptions {
   credits: number;
   amount: number;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  imageUrl: string;
+  credits: number;
 }
 
 const BuyCredits = () => {
@@ -35,6 +49,27 @@ const BuyCredits = () => {
   const [selectedOption, setSelectedOption] = useState<CreditsOptions | null>(
     null
   );
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  const router = useRouter();
+
+  const onApprove = async () => {
+    // Update user credits on db
+
+    const result = await db
+      .update(Users)
+      .set({
+        credits: userDetail?.credits + selectedOption?.credits,
+      })
+      .returning({ id: Users.id });
+
+    if (result) {
+      setUserDetail((prev: User) => ({
+        ...prev,
+        credits: userDetail?.credits + selectedOption?.credits,
+      }));
+      router.push("/dashboard");
+    }
+  };
 
   return (
     <div>
@@ -66,6 +101,29 @@ const BuyCredits = () => {
             </h2>
           </div>
         ))}
+      </div>
+
+      <div className="mt-10">
+        {selectedOption?.amount && (
+          <PayPalButtons
+            style={{ layout: "horizontal" }}
+            createOrder={(data, actions) => {
+              return actions?.order.create({
+                intent: "CAPTURE",
+                purchase_units: [
+                  {
+                    amount: {
+                      currency_code: "BRL",
+                      value: String(selectedOption?.amount.toFixed(2)),
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={onApprove}
+            onCancel={() => console.log("Payment Cancel")}
+          />
+        )}
       </div>
     </div>
   );
