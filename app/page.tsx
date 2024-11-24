@@ -1,12 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { LpHeader } from "@/components/lp-header";
+import { LpMain } from "@/components/lp-main";
 
 export default function Home() {
   return (
     <div>
-      <h2>Hello World</h2>
-      <Button>Subscribe</Button>
+      <LpHeader />
+      <LpMain />
     </div>
   );
 }
