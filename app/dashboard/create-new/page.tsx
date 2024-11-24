@@ -39,8 +39,6 @@ const CreateNew = () => {
   const [orgImage, setOrgImage] = useState<string | null>(null);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
-  // const [outputResult, setOutputResult] = useState();
-
   const onHandleInputChange = (
     value: File | string,
     fieldName: keyof FormDataProps
@@ -61,7 +59,6 @@ const CreateNew = () => {
       additionalInformation: formData?.additionalInformation,
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
-    console.log(result.data);
     setAiOutputImage(result.data.result);
     setOpenOutputDialog(true);
     await updateUserCredits();
@@ -78,7 +75,6 @@ const CreateNew = () => {
     });
 
     const downloadUrl = await getDownloadURL(imageRef);
-    console.log("downloadUrl: ", downloadUrl);
     setOrgImage(downloadUrl);
     return downloadUrl;
   };

@@ -27,13 +27,10 @@ export async function POST(req: NextRequest) {
         additionalInformation,
     };
 
-    // const output = await replicate.run(
-    //   "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
-    //   { input }
-    // );
-
-    const output =
-      "https://firebasestorage.googleapis.com/v0/b/ai-architect-196f3.firebasestorage.app/o/ai-architect%2F1732397233603.png?alt=media&token=d11762ed-550c-4350-9186-43ac240c99d8";
+    const output = await replicate.run(
+      "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
+      { input }
+    );
 
     const base64Image = await ConvertImageToBase64(String(output));
 
@@ -43,8 +40,6 @@ export async function POST(req: NextRequest) {
     await uploadString(storageRef, base64Image, "data_url");
 
     const downloadUrl = await getDownloadURL(storageRef);
-
-    console.log(downloadUrl);
 
     const dbResult = await db
       .insert(AiGeneratedImage)
@@ -57,8 +52,7 @@ export async function POST(req: NextRequest) {
       })
       .returning({ id: AiGeneratedImage.id });
 
-    console.log("dbResult: ", dbResult);
-    return NextResponse.json({ result: downloadUrl });
+    return NextResponse.json({ result: dbResult });
   } catch (err) {
     return NextResponse.json({ result: err });
   }

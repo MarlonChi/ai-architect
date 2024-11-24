@@ -1,6 +1,5 @@
 import { db } from "@/config/db";
 import { Users } from "@/config/schema";
-import { error } from "console";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
