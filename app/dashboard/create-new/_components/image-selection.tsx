@@ -19,7 +19,7 @@ export const ImageSelection = ({ selectedImage }: ImageSelectionProps) => {
 
   return (
     <div>
-      <label>Selecione a imagem de seu cômodo</label>
+      <label>Selecione a imagem do seu ambiente</label>
       <div className="mt-3">
         <label htmlFor="upload-image">
           <div

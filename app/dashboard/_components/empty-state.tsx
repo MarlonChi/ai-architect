@@ -10,7 +10,7 @@ export const EmptyState = () => {
     <div className="flex items-center justify-center mt-10 flex-col">
       <Image src={"/placeholder.png"} width={200} height={200} alt="" />
       <h2 className="font-medium text-xl text-gray-500">
-        Crie um novo AI Design para seu cômodo
+        Crie um novo AI Design para seu ambiente
       </h2>
       <Link href={"/dashboard/create-new"}>
         <Button>Começar</Button>

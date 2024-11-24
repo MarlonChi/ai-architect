@@ -49,7 +49,7 @@ export const Listing = () => {
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-3xl">Olá, {user?.fullName}</h2>
         <Link href={"/dashboard/create-new"}>
-          <Button>+ Remodelar Cômodo</Button>
+          <Button>+ Remodelar ambiente</Button>
         </Link>
       </div>
 

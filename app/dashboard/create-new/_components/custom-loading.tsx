@@ -19,7 +19,7 @@ export const CustomLoading = ({ loading }: CustomLoadingProps) => {
         <div className="bg-transparent flex flex-col items-center my-10 justify-center">
           <Image src={"/spinner.gif"} alt="" width={100} height={100} />
           <AlertDialogDescription className="text-center text-xl">
-            Projetando seu cômodo. Por favor aguarde...
+            Projetando seu ambiente. Por favor aguarde...
           </AlertDialogDescription>
         </div>
       </AlertDialogContent>

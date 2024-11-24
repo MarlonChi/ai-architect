@@ -30,7 +30,7 @@ export const RoomItem = ({ room }: RoomItemProps) => {
         }}
       />
       <div className="p-2">
-        <h2>🏚️ Cômodo: {room.roomType}</h2>
+        <h2>🏚️ Ambiente: {room.roomType}</h2>
         <h2>🎨 Estilo: {room.designType}</h2>
       </div>
 

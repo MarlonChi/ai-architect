@@ -12,7 +12,7 @@ export const DesignType = ({ selectedDesignType }: DesignTypeProps) => {
 
   return (
     <div className="mt-5">
-      <label className="text-gray-500">Estilo do Cômodo</label>
+      <label className="text-gray-500">Estilo do Ambiente</label>
       <div className="grid grid-cols-2 mt-3 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {DesignsStyles.map((design, index) => (
           <div

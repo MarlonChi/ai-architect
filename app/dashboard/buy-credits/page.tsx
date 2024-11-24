@@ -68,8 +68,8 @@ const BuyCredits = () => {
     <div>
       <h2 className="font-bold text-2xl">Compre mais créditos</h2>
       <p>
-        Desbloqueie mais possibilidades - Compre mais créditos e transforme seus
-        comodos, com a nossa IA! ✨🛋️
+        Desbloqueie mais possibilidades - Compre mais créditos e transforme seu
+        ambiente com a nossa IA! ✨🛋️
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mt-10">
