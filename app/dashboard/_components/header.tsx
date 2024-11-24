@@ -5,16 +5,19 @@ import { UserButton } from "@clerk/nextjs";
 import { useContext } from "react";
 import { UserDetailContext } from "@/app/_context/UserDetailContext";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const Header = () => {
   const { userDetail } = useContext(UserDetailContext);
 
   return (
     <div className="p-5 shadow-sm flex justify-between items-center">
-      <div className="flex gap-2 items-center">
-        <Image src={"/logo.svg"} width={40} height={40} alt="" />
-        <h2 className="font-bold text-lg">AI Architect</h2>
-      </div>
+      <Link href="/dashboard">
+        <div className="flex gap-2 items-center">
+          <Image src={"/logo.svg"} width={40} height={40} alt="" />
+          <h2 className="font-bold text-lg">AI Architect</h2>
+        </div>
+      </Link>
 
       <Button variant="ghost" className="rounded-full text-primary">
         Compre mais créditos
