@@ -42,7 +42,7 @@ export const ImageSelection = ({ selectedImage }: ImageSelectionProps) => {
         </label>
         <input
           type="file"
-          accept="image/*"
+          accept=".png,.jpg"
           id="upload-image"
           style={{ display: "none" }}
           onChange={onFileSelected}
