@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         aiImage: downloadUrl,
         userEmail: userEmail,
       })
-      .returning({ id: AiGeneratedImage.id });
+      .returning({ aiImage: AiGeneratedImage.aiImage });
 
     return NextResponse.json({ result: dbResult });
   } catch (err) {

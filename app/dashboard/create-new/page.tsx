@@ -59,7 +59,7 @@ const CreateNew = () => {
       additionalInformation: formData?.additionalInformation,
       userEmail: user?.primaryEmailAddress?.emailAddress,
     });
-    setAiOutputImage(result.data.result);
+    setAiOutputImage(result.data.result[0].aiImage);
     setOpenOutputDialog(true);
     await updateUserCredits();
     setIsLoading(false);
@@ -149,12 +149,14 @@ const CreateNew = () => {
 
       <CustomLoading loading={isLoading} />
 
-      <AiOutputDialog
-        isOpen={openOutputDialog}
-        setIsOpen={setOpenOutputDialog}
-        orgImageUrl={orgImage!}
-        aiImageUrl={aiOutputImage!}
-      />
+      {aiOutputImage && (
+        <AiOutputDialog
+          isOpen={openOutputDialog}
+          setIsOpen={setOpenOutputDialog}
+          orgImageUrl={orgImage!}
+          aiImageUrl={aiOutputImage!}
+        />
+      )}
     </div>
   );
 };
