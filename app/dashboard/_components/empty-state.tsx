@@ -12,7 +12,7 @@ export const EmptyState = () => {
       <h2 className="font-medium text-xl text-gray-500">
         Crie um novo AI Design para seu ambiente
       </h2>
-      <Link href={"/dashboard/create-new"}>
+      <Link href={"/dashboard/create-new"} className="mt-10">
         <Button>Começar</Button>
       </Link>
     </div>
