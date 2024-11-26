@@ -64,6 +64,10 @@ const BuyCredits = () => {
     }
   };
 
+  const onCancel = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <div>
       <h2 className="font-bold text-2xl">Compre mais créditos</h2>
@@ -114,7 +118,7 @@ const BuyCredits = () => {
               });
             }}
             onApprove={onApprove}
-            onCancel={() => console.log("Payment Cancel")}
+            onCancel={onCancel}
           />
         )}
       </div>
